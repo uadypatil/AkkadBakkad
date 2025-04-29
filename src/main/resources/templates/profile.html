@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<!-- bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+		<script src="https://kit.fontawesome.com/07ef988cad.js" crossorigin="anonymous"></script>
+	<!-- custom style -->
+	<style>
+		.wrapper {
+			height: 100vh;
+			width: 100vw;
+			background-image: url("bgimage.jpg");
+			background-size: cover;
+
+		}
+
+		.sidebar-wrapper {
+			width: 300px;
+			height: 100%;
+			background: linear-gradient(rgb(143, 141, 255), rgb(148, 92, 221));
+			backdrop-filter: blur(15px);
+		}
+
+		.main-wrapper {
+			width: calc(100% - 300px);
+			height: 100%;
+		}
+
+		.navbar-main {
+			background: rgb(255, 255, 255);
+			height: 60px;
+		}
+
+		.main-content {
+			backdrop-filter: blur(15px);
+			height: calc(100% - 60px);
+		}
+
+		.logo-img {
+			height: 100px;
+			width: auto;
+		}
+
+		.sidebar-buttons {
+			list-style-type: none;
+		}
+
+		.sidebar-buttons li {
+			transition: 0.5s;
+			padding: 15px 10px;
+		}
+
+		.sidebar-buttons li:hover {
+			background-color: aliceblue;
+			cursor: pointer;
+			transition: 0.5s;
+			padding: 15px 10px;
+		}
+
+		.sidebar-buttons li a {
+			color: #ffffff;
+			transition: 0.5s;
+		}
+
+		.sidebar-buttons li:hover a {
+			color: #000000;
+		}
+
+
+		.sidebar-footer-img img {
+			height: 50px;
+			width: 50px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- modal for new user form -->
+	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">Add New User</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="/addNewUser" method="POST" class="" id="newuserform">
+						<label for="" class="form-label">Username</label>
+						<input type="text" name="username" id="username" class="form-control"
+							placeholder="Enter Username">
+
+						<label for="" class="form-label">Password</label>
+						<input type="password" name="password" id="password" class="form-control form-password"
+							placeholder="Enter Password">
+
+						<label for="" class="form-label">Role</label>
+						<select name="role" id="role" class="form-control form-select">
+							<option value="user">User</option>
+							<option value="admin">Admin</option>
+						</select>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Add User</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- modal ends -->
+	<script>
+
+		document.getElementById('staticBackdrop').addEventListener('hidden.bs.modal', function () {
+			document.getElementById("newuserform").reset();
+		});
+	</script>
+
+
+	<!-- modal for new user form -->
+	<div class="modal fade" id="staticBackdropupdate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="staticBackdropLabel">Update User</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="/updateUserPost" method="POST" id="updateuserform">
+						<label for="" class="form-label">Username</label>
+						<input type="text" name="username" id="udpateusername" class="form-control"
+							placeholder="Enter Username">
+
+						<label for="" class="form-label">Password</label>
+						<input type="password" name="password" id="udpatepassword" class="form-control form-password"
+							placeholder="Enter Password">
+
+						<label for="" class="form-label">Role</label>
+						<select name="role" id="udpaterole" class="form-control form-select">
+							<option value="user">User</option>
+							<option value="admin">Admin</option>
+						</select>
+
+						<input type="hidden" id="updateid" name="id">
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Update User</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- modal ends -->
+	<script>
+
+		document.getElementById('staticBackdropupdate').addEventListener('hidden.bs.modal', function () {
+			document.getElementById("updateuserform").reset();
+		});
+	</script>
+	
+
+	<!-- Modal -->
+	<div class="modal fade" id="deleteStaticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete User</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <p>
+				<span class="text-danger">Note</span>: User can't be recovered
+			</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" id="deleteModelButotn" onclick="redirectDelete(this.getAttribute('data-id'))">Understood</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
+	<div class="wrapper d-flex">
+		<!-- sidebar content -->
+		<div class="sidebar-wrapper" th:replace="sidebar :: sidebar">
+		</div>
+
+		<div class="main-wrapper">
+			<div class="container-fluid h-100">
+				<!-- placing navbar here -->
+				<div class="navbar-main" th:replace="navbar :: navbar">
+				</div>
+
+				<!-- placing main content here -->
+				<div class="main-content pt-3">
+					<div class="row h-100">
+						<div class="col-lg-12 h-100">
+							<div class="gridbox  h-100 pb-2">
+								<div class="profile-box h-100 bg-white pt-3">
+									<div class="d-flex justify-content-center">
+										<img src="/images/user.png" alt="" style="height: 200px; width: auto;">
+									</div>
+									<div class="d-flex justify-content-center border-bottom">
+										<div class="w-50">
+											<p class="text-center"><span class="fs-3 fw-bold">Uday Patil</span></p>
+										</div>
+									</div>
+									<div class="all-uers p-2">
+
+										<div th:if="${success != null}" class="alert alert-success" id="successdiv">
+											<p th:text="${success}"></p>
+										</div>
+
+										<div th:if="${error != null}" class="alert alert-danger" id="errordiv">
+											<p th:text="${error}"></p>
+										</div>
+
+										<script>
+											setTimeout(function () {
+												// Hide the element by setting display to 'none'
+												document.getElementById("successdiv").style.display = "none";
+											}, 3000);
+											setTimeout(function () {
+												// Hide the element by setting display to 'none'
+												document.getElementById("errordiv").style.display = "none";
+											}, 3000);
+										</script>
+
+										<div class="d-flex justify-content-end">
+											<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+												data-bs-target="#staticBackdrop">
+												New User
+											</button>
+										</div>
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="table-responsive">
+													<table class="table">
+														<thead>
+															<tr>
+																<th>Id</th>
+																<th>Username</th>
+																<th>Role</th>
+																<th>Status</th>
+																<th>Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr th:each="data, iterStat : ${usersList}">
+																<td th:text="${iterStat.count}"></td>
+																<!-- Serial Number -->
+																<td th:text="${data.username}"></td>
+																<!-- Username from data -->
+																<td th:text="${data.role}"></td> <!-- Role from data -->
+																<td th:text="${data.status}"></td>
+																<!-- Status from data -->
+																<td>
+																	<button type="button" class="btn btn-primary"
+																		data-bs-toggle="modal"
+																		data-bs-target="#staticBackdropupdate"
+																		th:attr="data-id=${data.id}, data-username=${data.username}, data-password=${data.password}, data-role=${data.role}"
+																		onclick="setUpdateParams(this, document.getElementById('updateuserform'))">edit</button>
+																	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteStaticBackdrop"
+																		th:attr="data-id=${data.id}" onclick="setDeleteBtnValue(this)">drop</button>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function setUpdateParams(button, updateForm) {
+			document.getElementById('updateid').value = button.getAttribute('data-id');
+			document.getElementById('udpateusername').value = button.getAttribute('data-username');
+			document.getElementById('udpatepassword').value = button.getAttribute('data-password');
+
+			const roleValue = button.getAttribute('data-role');
+			const select = document.getElementById('udpaterole');
+
+			for (let i = 0; i < select.options.length; i++) {
+				if (select.options[i].value == roleValue) {
+					select.selectedIndex = i;
+					break;
+				}
+			}
+		}
+		
+		function setDeleteBtnValue(button){
+			document.getElementById("deleteModelButotn").setAttribute("data-id", button.getAttribute("data-id"));
+		}
+		
+		function redirectDelete(id){
+			window.location.href = `/deleteUserPost?id=${id}`;
+		}
+	</script>
+
+	<script>
+		setTimeout(function () {
+			// Hide the element by setting display to 'none'
+			document.getElementById("successdiv").style.display = "none";
+		}, 3000);
+		setTimeout(function () {
+			// Hide the element by setting display to 'none'
+			document.getElementById("errordiv").style.display = "none";
+		}, 3000);
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

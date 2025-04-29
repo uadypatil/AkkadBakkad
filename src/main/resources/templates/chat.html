@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+
+	<!-- bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+		<script src="https://kit.fontawesome.com/07ef988cad.js" crossorigin="anonymous"></script>
+
+		<script src="https://kit.fontawesome.com/07ef988cad.js" crossorigin="anonymous"></script>
+	<!-- custom style -->
+	<style>
+		.wrapper {
+			height: 100vh;
+			width: 100vw;
+			background-image: url("/images/bgimage.jpg");
+			background-size: cover;
+
+		}
+
+		.sidebar-wrapper {
+			width: 300px;
+			height: 100%;
+			background: linear-gradient(rgb(143, 141, 255), rgb(148, 92, 221));
+			backdrop-filter: blur(15px);
+		}
+
+		.main-wrapper {
+			width: calc(100% - 300px);
+			height: 100%;
+		}
+
+		.navbar-main {
+			background: rgb(255, 255, 255);
+			height: 60px;
+		}
+
+		.main-content {
+			backdrop-filter: blur(15px);
+			height: calc(100% - 60px);
+		}
+
+		.logo-img {
+			height: 100px;
+			width: auto;
+		}
+
+		.sidebar-buttons {
+			list-style-type: none;
+		}
+
+		.sidebar-buttons li {
+			transition: 0.5s;
+			padding: 15px 10px;
+		}
+
+		.sidebar-buttons li:hover {
+			background-color: aliceblue;
+			cursor: pointer;
+			transition: 0.5s;
+			padding: 15px 10px;
+		}
+
+		.sidebar-buttons li a {
+			color: #ffffff;
+			transition: 0.5s;
+		}
+
+		.sidebar-buttons li:hover a {
+			color: #000000;
+		}
+
+
+		.sidebar-footer-img img {
+			height: 50px;
+			width: 50px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper d-flex">
+		<!-- sidebar content -->
+		<div class="sidebar-wrapper" th:replace="sidebar :: sidebar">
+		</div>
+
+		<div class="main-wrapper">
+			<div class="container-fluid h-100">
+				<!-- placing navbar here -->
+				<div class="navbar-main" th:replace="navbar :: navbar">
+				</div>
+
+				<!-- placing main content here -->
+				<div class="main-content pt-3">
+					<div class="row h-100">
+
+						<div class="col-lg-12 h-100">
+							<div class="gridbox  h-100">
+								<div class="messagebox h-75 py-2">
+									<div class="messages h-100 bg-white p-3 d-flex flex-column gap-2 overflow-auto">
+										<!-- Incoming Message -->
+										
+
+										<!--<div class="d-flex justify-content-start" th:each="data, iterStat : ${messages}">
+										    <div class="p-2 bg-light rounded shadow-sm" th:text="${data}">
+										    </div>
+											
+											<p th:text="${data.getsenderUser().getId()}"></p>
+										</div>-->
+										
+										<div th:class="${data.getsenderUser().getId()} == ${senderUserId} ? 'd-flex justify-content-end' : 'd-flex justify-content-start'" th:each="data, iterStat : ${messages}">
+										    <div th:class="${data.getsenderUser().getId()} == ${senderUserId} ? 'p-2 bg-primary rounded shadow-sm' : 'p-2 bg-light rounded shadow-sm'" th:text="${data.message}">
+										    </div>
+										</div>
+										
+										<!--<div class="d-flex justify-content-start">
+											<div class="p-2 bg-light rounded shadow-sm">
+												Hello! How are you?
+											</div>
+										</div>
+
+										 Uploaded/Sent Message 
+										<div class="d-flex justify-content-end">
+											<div class="p-2 bg-primary text-white rounded shadow-sm">
+												I'm good, thanks!
+											</div>
+										</div>-->
+									</div>
+								</div>
+
+								<div class="textbox h-25 py-2">
+									<div
+										class="boxes bg-white h-100 d-flex flex-column justify-content-center gap-2 p-3">
+										<div class="d-flex flex-wrap gap-2">
+											<button class="btn btn-outline-secondary emojie_btn"
+												data-value="😀">😀</button>
+											<button class="btn btn-outline-secondary emojie_btn"
+												data-value="😂">😂</button>
+											<button class="btn btn-outline-secondary emojie_btn"
+												data-value="😍">😍</button>
+											<button class="btn btn-outline-secondary emojie_btn"
+												data-value="🤔">🤔</button>
+											<button class="btn btn-outline-secondary emojie_btn"
+												data-value="😎">😎</button>
+											<button class="btn btn-outline-secondary emojie_btn"
+												data-value="😢">😢</button>
+											<button class="btn btn-outline-secondary emojie_btn"
+												data-value="😡">😡</button>
+											<button class="btn btn-outline-secondary emojie_btn"
+												data-value="🎉">🎉</button>
+											<button class="btn btn-outline-secondary emojie_btn"
+												data-value="👍">👍</button>
+											<button class="btn btn-outline-secondary emojie_btn"
+												data-value="❤️">❤️</button>
+										</div>
+
+										<form action="/messagePost" method="POST" class="d-flex gap-2">
+											<input type="text" class="form-control" id="messageField" name="message"
+												placeholder="Type your message..." />
+
+											<input type="hidden" name="senderUserId" th:value="${senderUserId}" />
+											<input type="hidden" name="receiverUserId" th:value="${receiverUserId}" />
+
+											<button type="submit" class="btn btn-primary">Send</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script>
+		const buttons = document.getElementsByClassName("emojie_btn");
+
+		Array.from(buttons).forEach(button => {
+			button.addEventListener("click", () => {
+				textvalue = document.getElementById("messageField");
+				messageField.value += button.innerText;
+
+
+			});
+		});
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

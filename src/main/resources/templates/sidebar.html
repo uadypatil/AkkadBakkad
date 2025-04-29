@@ -1,0 +1,45 @@
+<div class="sidebar-wrapper" th:fragment="sidebar">
+	<div class="sidebar-image d-flex justify-content-center pt-4">
+		<img src="/images/logo.png" alt="" class="logo-img img-fluid">
+	</div>
+	<div class="sidebar-title text-center">
+		<span class="fs-5 fw-bold">Akkad Bakkad</span>
+	</div>
+
+	<div class=" mt-5">
+		<ul class="sidebar-buttons">
+			<li>
+				<span>
+					<a href="/dashboard" class="fs-6 text-decoration-none"
+						th:text="Dashboard">
+					</a>
+				</span>
+			</li>
+			<li th:each="data, iterStat : ${users}">
+				<span>
+					<a th:href="@{'/chat?user=' + ${data.id}}" class="fs-6 text-decoration-none"
+						th:text="${data.username}">
+					</a>
+				</span>
+			</li>
+		</ul>
+
+
+	</div>
+
+	<div class="sidebar-footer">
+		<hr>
+		<a href="/profile">
+			<div class="d-flex px-5">
+				<div class="sidebar-footer-img">
+					<img src="/images/user.png" alt="">
+				</div>
+				<div class="sidebar-footer-user-text">
+					<p class="d-flex align-items-center ms-3 text-light" style="height: 100%;"
+						th:text="${sessionUsername}">
+					</p>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
