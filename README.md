@@ -41,42 +41,6 @@ H2 / MySQL for database
 
 REST APIs for joke integration (e.g., Chuck Norris API, JokeAPI)
 
-📁 Project Structure
-arduino
-Copy
-Edit
-AkkadBakkad/
-├── src/
-│   ├── main/
-│   │   ├── java/com/akkadbakkad/
-│   │   │   ├── config/
-│   │   │   ├── controller/
-│   │   │   ├── model/
-│   │   │   ├── repository/
-│   │   │   ├── service/
-│   │   │   └── AkkadBakkadApplication.java
-│   │   └── resources/
-│   │       ├── templates/
-│   │       ├── static/
-│   │       └── application.properties
-└── README.md
-⚙️ How to Run
-Clone the repository:
-
-bash
-Copy
-Edit
-git clone https://github.com/yourusername/AkkadBakkad.git
-Open in your IDE (e.g., IntelliJ, Eclipse)
-
-Update application.properties for DB and API keys if required
-
-Run AkkadBakkadApplication.java or use:
-
-bash
-Copy
-Edit
-./mvnw spring-boot:run
 🎯 Future Enhancements
 Add emoji support in chat
 
